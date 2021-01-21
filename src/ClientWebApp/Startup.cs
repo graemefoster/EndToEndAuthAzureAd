@@ -30,13 +30,7 @@ namespace ClientWebApp
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
-
             services.AddMicrosoftIdentityWebAppAuthentication(Configuration);
-            services.Configure<MicrosoftIdentityOptions>(options =>
-            {
-                options.ResponseType = "code";
-            });
-            
             services.AddAuthorization(options =>
             {
                 //Policies are attached to controllers / actions using the [Authorization(Policy="...")] attribute
