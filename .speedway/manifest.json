@@ -18,8 +18,7 @@
     },
     {
       "$type": "webapp",
-      "configuration": {
-      },
+      "configuration": {},
       "requiredSecretNames": null,
       "authorisation": {
         "localRedirectUri": "https://localhost:44391/signin-oidc",
@@ -28,18 +27,20 @@
             "name": "CallCentre",
             "allowedTypes": [
               "User"
-            ]
+            ],
+            "allowedApplications": null
           },
           {
             "name": "BackOffice",
             "allowedTypes": [
               "User"
-            ]
-          },
+            ],
+            "allowedApplications": null
+          }
         ],
         "scopes": [
           "Orders",
-		  "Customers"
+          "Customers"
         ]
       },
       "name": "BackEndApi",
@@ -47,11 +48,24 @@
     },
     {
       "$type": "webapp",
-      "configuration": {
-      },
+      "configuration": {},
       "requiredSecretNames": null,
       "authorisation": null,
       "name": "IntegrationApi",
+      "links": []
+    },
+    {
+      "$type": "webapp",
+      "configuration": {
+        "configurationExample": "Something"
+      },
+      "requiredSecretNames": null,
+      "authorisation": {
+        "localRedirectUri": "https://localhost:44386/signin-oidc",
+        "roles": null,
+        "scopes": null
+      },
+      "name": "ClientWebApp",
       "links": []
     }
   ],
