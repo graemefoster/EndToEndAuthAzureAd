@@ -30,8 +30,10 @@ namespace ClientWebApp
             services.AddControllers();
             services.AddRazorPages();
             services.AddMicrosoftIdentityWebAppAuthentication(Configuration);
+            
             services.AddAuthorization(options =>
             {
+                //Policies are attached to controllers / actions using the [Authorization(Policy="...")] attribute
                 options.AddPolicy("Orders", builder => builder.RequireAuthenticatedUser());
             });
         }

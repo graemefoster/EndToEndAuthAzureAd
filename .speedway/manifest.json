@@ -14,7 +14,13 @@
       "roles": null,
       "scopes": null,
       "name": "MobileAppExample",
-      "links": []
+      "links": [
+        {
+          "type": "secrets",
+          "name": "Default",
+          "access": "Read"
+        }
+      ]
     },
     {
       "$type": "webapp",
@@ -44,7 +50,13 @@
         ]
       },
       "name": "BackEndApi",
-      "links": []
+      "links": [
+        {
+          "type": "secrets",
+          "name": "Default",
+          "access": "Read"
+        }
+      ]
     },
     {
       "$type": "webapp",
@@ -66,7 +78,13 @@
         "scopes": null
       },
       "name": "ClientWebApp",
-      "links": []
+      "links": [
+        {
+          "type": "secrets",
+          "name": "Default",
+          "access": "Read"
+        }
+      ]
     }
   ],
   "developers": [
