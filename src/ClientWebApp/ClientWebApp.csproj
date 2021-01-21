@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>End-to-End-Auth-ClientWebApp-05a9001b-76bf-4895-a78a-ef4c8c5cd368</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

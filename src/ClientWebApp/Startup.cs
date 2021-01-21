@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,9 +28,14 @@ namespace ClientWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllersWithViews();
             services.AddRazorPages();
+
             services.AddMicrosoftIdentityWebAppAuthentication(Configuration);
+            services.Configure<MicrosoftIdentityOptions>(options =>
+            {
+                options.ResponseType = "code";
+            });
             
             services.AddAuthorization(options =>
             {
@@ -56,6 +62,7 @@ namespace ClientWebApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapRazorPages();
             });
         }
     }
