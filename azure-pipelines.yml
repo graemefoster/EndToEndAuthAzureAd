@@ -1,0 +1,17 @@
+
+pool:
+  vmImage: 'ubuntu-18.04' 
+
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: Speedway/Speedway
+
+extends:
+  template: master-template.yml@templates # Template reference
+  parameters:
+    projectId: f284992d-9652-493b-ac3f-ae474be6f81a
+    storageAccountName: speedwaystordev4a3a3a317
+    deploymentApiUri: https://speedway-deploy-dev-6048a06a-d550-4a35-9.azurewebsites.net/
+    deploymentApiApplicationId: fd181710-c0a6-44bb-a594-489eeee484a7
