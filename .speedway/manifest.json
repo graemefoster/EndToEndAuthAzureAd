@@ -45,8 +45,15 @@
           }
         ],
         "scopes": [
-          "Orders",
-          "Customers"
+          {
+            "name": "Orders",
+            "allowedDelegatingApplications": [
+              "IntegrationApi"
+            ]
+          },
+          {
+            "name": "Customers"
+          }
         ]
       },
       "name": "BackEndApi",
@@ -68,7 +75,9 @@
       "authorisation": {
         "localRedirectUri": "https://localhost:44316/signin-oidc",
         "scopes": [
-          "on-behalf-of"
+          {
+            "name": "on-behalf-of"
+          }
         ]
       },
       "name": "IntegrationApi",
