@@ -3,7 +3,58 @@
   "apiVersion": "1.0",
   "slug": "end-to-end-oauth",
   "displayName": "End to end oauth",
-  "resources": [],
+  "resources": [
+    {
+      "$type": "oauthClient",
+      "clientType": "Public",
+      "signOnUri": "urn://not-used",
+      "replyUrls": [
+        "msauth.com.graemefoster.mobileappexample://auth"
+      ],
+      "roles": null,
+      "scopes": null,
+      "name": "MobileAppExample",
+      "links": []
+    },
+    {
+      "$type": "webapp",
+      "configuration": {
+      },
+      "requiredSecretNames": null,
+      "authorisation": {
+        "localRedirectUri": "https://localhost:44391/signin-oidc",
+        "roles": [
+          {
+            "name": "CallCentre",
+            "allowedTypes": [
+              "User"
+            ]
+          },
+          {
+            "name": "BackOffice",
+            "allowedTypes": [
+              "User"
+            ]
+          },
+        ],
+        "scopes": [
+          "Orders",
+		  "Customers"
+        ]
+      },
+      "name": "BackEndApi",
+      "links": []
+    },
+    {
+      "$type": "webapp",
+      "configuration": {
+      },
+      "requiredSecretNames": null,
+      "authorisation": null,
+      "name": "IntegrationApi",
+      "links": []
+    }
+  ],
   "developers": [
     "graeme_foster@hotmail.com"
   ],
