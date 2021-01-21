@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.TokenCacheProviders.InMemory;
+using Microsoft.Identity.Web.UI;
 using Microsoft.OpenApi.Models;
 
 namespace ClientWebApp
@@ -33,13 +34,30 @@ namespace ClientWebApp
             Configuration.GetSection("ClientAppSettings").Bind(settings);
 
             services.Configure<ClientAppSettings>(Configuration.GetSection("ClientAppSettings"));
-            services.AddControllersWithViews();
-            services.AddRazorPages();
-
 
             services.AddInMemoryTokenCaches();
-            services.AddMicrosoftIdentityWebAppAuthentication(Configuration)
-                .EnableTokenAcquisitionToCallDownstreamApi(new[] {$"api://{settings.BackEndAppClientId}/Orders"});
+            var orderScope = $"api://{settings.BackEndAppClientId}/Orders";
+            
+            //Used for incremental consent on my razor page. 
+            //https://github.com/AzureAD/microsoft-identity-web/wiki/Managing-incremental-consent-and-conditional-access
+            Configuration["DownstreamApi:CalledApiScopes"] = orderScope;
+
+            services
+                .AddMicrosoftIdentityWebAppAuthentication(Configuration)
+                .EnableTokenAcquisitionToCallDownstreamApi(new[] {orderScope})
+                .AddDownstreamWebApi("Orders", options =>
+                {
+                    options.Scopes = orderScope;
+                    options.BaseUrl = settings.IntegrationApiUri;
+                });
+
+            //Needed for incremental consent.
+            //https://github.com/AzureAD/microsoft-identity-web/wiki/Managing-incremental-consent-and-conditional-access
+            services
+                .AddControllersWithViews()
+                .AddMicrosoftIdentityUI();
+
+            services.AddRazorPages();
 
             services.AddAuthorization(options =>
             {
@@ -69,10 +87,5 @@ namespace ClientWebApp
                 endpoints.MapRazorPages();
             });
         }
-    }
-
-    public class ClientAppSettings
-    {
-        public string BackEndAppClientId { get; set; }
     }
 }

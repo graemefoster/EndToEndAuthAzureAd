@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 
 namespace IntegrationApi
@@ -29,10 +31,15 @@ namespace IntegrationApi
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "IntegrationApi", Version = "v1"});
             });
 
-            services.AddScoped<HasValidJwtPolicy>();
+            services.AddAuthentication(LookForButIgnoreJwtScheme.SchemeName)
+                .AddScheme<LookForButIgnoreJwtSchemeOptions, LookForButIgnoreJwtScheme>(
+                    LookForButIgnoreJwtScheme.SchemeName, null);
+
             services.AddAuthorization(options =>
                 options.AddPolicy("CheckForIncomingJwt",
-                    builder => builder.AddRequirements(new HasValidJwtRequirement())));
+                    builder => builder
+                        .AddRequirements().RequireAuthenticatedUser()
+                        .AddAuthenticationSchemes(LookForButIgnoreJwtScheme.SchemeName)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,13 +56,10 @@ namespace IntegrationApi
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
-    }
-
-    public class HasValidJwtRequirement : IAuthorizationRequirement
-    {
     }
 }

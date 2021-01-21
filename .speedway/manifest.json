@@ -71,7 +71,8 @@
     {
       "$type": "webapp",
       "configuration": {
-        "ClientAppSettings:BackEndAppClientId": "[BackEndApi.OAuthOutput.ClientId]"
+        "ClientAppSettings:BackEndAppClientId": "[BackEndApi.OAuthOutput.ClientId]",
+        "ClientAppSettings:BackEndApiUri": "[BackEndApi.Uri]"
       },
       "requiredSecretNames": null,
       "authorisation": {
