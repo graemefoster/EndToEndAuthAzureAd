@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.TokenCacheProviders.InMemory;
 using Microsoft.OpenApi.Models;
 
 namespace ClientWebApp
@@ -28,9 +29,18 @@ namespace ClientWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var settings = new ClientAppSettings();
+            Configuration.GetSection("ClientAppSettings").Bind(settings);
+
+            services.Configure<ClientAppSettings>(Configuration.GetSection("ClientAppSettings"));
             services.AddControllersWithViews();
             services.AddRazorPages();
-            services.AddMicrosoftIdentityWebAppAuthentication(Configuration);
+
+
+            services.AddInMemoryTokenCaches();
+            services.AddMicrosoftIdentityWebAppAuthentication(Configuration)
+                .EnableTokenAcquisitionToCallDownstreamApi(new[] {$"api://{settings.BackEndAppClientId}/Orders"});
+
             services.AddAuthorization(options =>
             {
                 //Policies are attached to controllers / actions using the [Authorization(Policy="...")] attribute
@@ -59,5 +69,10 @@ namespace ClientWebApp
                 endpoints.MapRazorPages();
             });
         }
+    }
+
+    public class ClientAppSettings
+    {
+        public string BackEndAppClientId { get; set; }
     }
 }

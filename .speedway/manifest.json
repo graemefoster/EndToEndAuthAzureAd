@@ -60,7 +60,9 @@
     },
     {
       "$type": "webapp",
-      "configuration": {},
+      "configuration": {
+        "IntegrationApiSettings:BackEndApiUri": "[BackEndApi.Uri]"
+      },
       "requiredSecretNames": null,
       "authorisation": null,
       "name": "IntegrationApi",
@@ -69,7 +71,7 @@
     {
       "$type": "webapp",
       "configuration": {
-        "configurationExample": "Something"
+        "ClientAppSettings:BackEndAppClientId": "[BackEndApi.OAuthOutput.ClientId]"
       },
       "requiredSecretNames": null,
       "authorisation": {
@@ -86,9 +88,5 @@
         }
       ]
     }
-  ],
-  "developers": [
-    "graeme_foster@hotmail.com"
-  ],
-  "testers": []
+  ]
 }

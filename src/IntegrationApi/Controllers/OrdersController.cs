@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -9,24 +10,22 @@ namespace IntegrationApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize(Policy = "CheckForIncomingJwt")]
     public class OrdersController : ControllerBase
     {
         private readonly ILogger<OrdersController> _logger;
+        private readonly BackEndApiWithTokenPassThruClient _apiClient;
 
-        public OrdersController(ILogger<OrdersController> logger)
+        public OrdersController(ILogger<OrdersController> logger, BackEndApiWithTokenPassThruClient apiClient)
         {
             _logger = logger;
+            _apiClient = apiClient;
         }
 
         [HttpGet]
-        public IEnumerable<Order> Get()
+        public Task<IEnumerable<Order>> Get()
         {
-            return new List<Order>
-            {
-                new Order(Guid.Parse("d49cd5b2-6eb6-433e-82e0-7dfcde66fdae"), "Order One"),
-                new Order(Guid.Parse("d49cd5b2-6eb6-433e-82e0-7dfcde66fdaf"), "Order Two"),
-                new Order(Guid.Parse("d49cd5b2-6eb6-433e-82e0-7dfcde66fdaa"), "Order Three"),
-            };
+            return _apiClient.List();
         }
     }
 }

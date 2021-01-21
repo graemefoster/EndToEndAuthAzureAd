@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace IntegrationApi
@@ -26,12 +20,19 @@ namespace IntegrationApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.Configure<IntegrationApiSettings>(Configuration.GetSection("IntegrationApiSettings"));
+            services.AddHttpClient<BackEndApiWithTokenPassThruClient>();
+            services.AddHttpContextAccessor();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "IntegrationApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "IntegrationApi", Version = "v1"});
             });
+
+            services.AddScoped<HasValidJwtPolicy>();
+            services.AddAuthorization(options =>
+                options.AddPolicy("CheckForIncomingJwt",
+                    builder => builder.AddRequirements(new HasValidJwtRequirement())));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,10 +51,11 @@ namespace IntegrationApi
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
+    }
+
+    public class HasValidJwtRequirement : IAuthorizationRequirement
+    {
     }
 }
