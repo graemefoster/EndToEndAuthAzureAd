@@ -36,10 +36,17 @@ namespace IntegrationApi
             ConfigureAuthenticationForPassThruTokenScenario(services);
 
             services.AddAuthorization(options =>
+            {
                 options.AddPolicy("CheckForIncomingJwt",
                     builder => builder
                         .AddRequirements().RequireAuthenticatedUser()
-                        .AddAuthenticationSchemes(LookForButIgnoreJwtScheme.SchemeName)));
+                        .AddAuthenticationSchemes(LookForButIgnoreJwtScheme.SchemeName));
+
+                options.AddPolicy("OnBehalfOfFlow",
+                    builder => builder
+                        .AddRequirements().RequireAuthenticatedUser()
+                        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme));
+            });
         }
 
         private void ConfigureAuthenticationForOnBehalfOfFlow(IServiceCollection services)

@@ -1,20 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.TokenCacheProviders.InMemory;
 using Microsoft.Identity.Web.UI;
-using Microsoft.OpenApi.Models;
 
 namespace ClientWebApp
 {
@@ -36,18 +27,25 @@ namespace ClientWebApp
             services.Configure<ClientAppSettings>(Configuration.GetSection("ClientAppSettings"));
 
             services.AddInMemoryTokenCaches();
+
             var orderScope = $"api://{settings.BackEndAppClientId}/Orders";
-            
+            var orderUsingOnBehalfOfScope = $"api://{settings.IntegrationApiClientId}/on-behalf-of";
+
             //Used for incremental consent on my razor page. 
             //https://github.com/AzureAD/microsoft-identity-web/wiki/Managing-incremental-consent-and-conditional-access
             Configuration["DownstreamApi:CalledApiScopes"] = orderScope;
+            Configuration["IntegrationApi:CalledApiScopes"] = orderUsingOnBehalfOfScope;
 
             services
                 .AddMicrosoftIdentityWebAppAuthentication(Configuration)
-                .EnableTokenAcquisitionToCallDownstreamApi(new[] {orderScope})
+                .EnableTokenAcquisitionToCallDownstreamApi()
                 .AddDownstreamWebApi("Orders", options =>
                 {
                     options.Scopes = orderScope;
+                    options.BaseUrl = settings.IntegrationApiUri;
+                }).AddDownstreamWebApi("OrdersViaOnBehalfOf", options =>
+                {
+                    options.Scopes = orderUsingOnBehalfOfScope;
                     options.BaseUrl = settings.IntegrationApiUri;
                 });
 
