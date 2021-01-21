@@ -26,20 +26,43 @@ namespace IntegrationApi
             services.AddHttpClient<BackEndApiWithTokenPassThruClient>();
             services.AddHttpContextAccessor();
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "IntegrationApi", Version = "v1"});
             });
 
-            services.AddAuthentication(LookForButIgnoreJwtScheme.SchemeName)
-                .AddScheme<LookForButIgnoreJwtSchemeOptions, LookForButIgnoreJwtScheme>(
-                    LookForButIgnoreJwtScheme.SchemeName, null);
+            ConfigureAuthenticationForOnBehalfOfFlow(services);
+            ConfigureAuthenticationForPassThruTokenScenario(services);
 
             services.AddAuthorization(options =>
                 options.AddPolicy("CheckForIncomingJwt",
                     builder => builder
                         .AddRequirements().RequireAuthenticatedUser()
                         .AddAuthenticationSchemes(LookForButIgnoreJwtScheme.SchemeName)));
+        }
+
+        private void ConfigureAuthenticationForOnBehalfOfFlow(IServiceCollection services)
+        {
+            var intermediateSettings = new IntegrationApiSettings();
+            Configuration.GetSection("IntegrationApiSettings").Bind(intermediateSettings);
+
+            services
+                .AddMicrosoftIdentityWebApiAuthentication(Configuration)
+                .EnableTokenAcquisitionToCallDownstreamApi()
+                .AddInMemoryTokenCaches()
+                .AddDownstreamWebApi("BackEndApi", options =>
+                {
+                    options.BaseUrl = intermediateSettings.BackEndApiUri;
+                    options.Scopes = $"api://{intermediateSettings.BackEndAppClientId}/Orders";
+                });
+        }
+
+        private static void ConfigureAuthenticationForPassThruTokenScenario(IServiceCollection services)
+        {
+            services.AddAuthentication()
+                .AddScheme<LookForButIgnoreJwtSchemeOptions, LookForButIgnoreJwtScheme>(
+                    LookForButIgnoreJwtScheme.SchemeName, null);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

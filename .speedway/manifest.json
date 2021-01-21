@@ -61,10 +61,15 @@
     {
       "$type": "webapp",
       "configuration": {
-        "IntegrationApiSettings:BackEndApiUri": "[BackEndApi.Uri]"
+        "IntegrationApiSettings:BackEndApiUri": "[BackEndApi.Uri]",
+        "IntegrationApiSettings:BackEndAppClientId": "[BackEndApi.OAuthOutput.ClientId]"
       },
       "requiredSecretNames": null,
-      "authorisation": null,
+      "authorisation": {
+        "localRedirectUri": "https://localhost:44316/signin-oidc",
+        "scopes": [
+        ]
+      },
       "name": "IntegrationApi",
       "links": []
     },
@@ -72,6 +77,7 @@
       "$type": "webapp",
       "configuration": {
         "ClientAppSettings:BackEndAppClientId": "[BackEndApi.OAuthOutput.ClientId]",
+        "ClientAppSettings:IntegrationApiClientId": "[IntegrationApi.OAuthOutput.ClientId]",
         "ClientAppSettings:IntegrationApiUri": "[IntegrationApi.Uri]"
       },
       "requiredSecretNames": null,
