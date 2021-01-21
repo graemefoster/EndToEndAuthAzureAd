@@ -29,7 +29,7 @@ namespace ClientWebApp
             services.AddInMemoryTokenCaches();
 
             var orderScope = $"api://{settings.BackEndAppClientId}/Orders";
-            var orderUsingOnBehalfOfScope = $"api://{settings.IntegrationApiClientId}/.default";
+            var orderUsingOnBehalfOfScope = $"api://{settings.IntegrationApiClientId}/on-behalf-of";
 
             //Used for incremental consent on my razor page. 
             //https://github.com/AzureAD/microsoft-identity-web/wiki/Managing-incremental-consent-and-conditional-access
