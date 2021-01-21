@@ -25,9 +25,7 @@ namespace IntegrationApi
             IOptions<IntegrationApiSettings> settings)
         {
             client.BaseAddress = new Uri(settings.Value.BackEndApiUri);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
-                "Bearer", 
-                contextAccessor.HttpContext!.Request.Headers["Authorization"][0]);
+            client.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse(contextAccessor.HttpContext!.Request.Headers["Authorization"][0]);
             _client = client;
         }
 
