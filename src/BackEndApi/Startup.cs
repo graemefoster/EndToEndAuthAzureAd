@@ -30,8 +30,14 @@ namespace BackEndApi
             services.Configure<BackEndSettings>(Configuration.GetSection("BackEndSettings"));
 
             services.AddMicrosoftIdentityWebApiAuthentication(Configuration);
+
+            //Create a policy that requires users to be authenticated, and in the BackOffice role.
+            services.AddAuthorization(options =>
+                options.AddPolicy("OrderPolicy",
+                    builder => builder.RequireAuthenticatedUser().RequireRole("BackOffice")));
             
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BackEndApi", Version = "v1" });

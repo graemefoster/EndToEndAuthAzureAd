@@ -11,7 +11,7 @@ namespace BackEndApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
+    [Authorize(Policy = "OrderPolicy")]
     public class OrdersController : ControllerBase
     {
         private readonly ILogger<OrdersController> _logger;
