@@ -36,7 +36,7 @@ For these reasons I've not added a sample project for this flow.
 
 ## Setup
 
-There are 4 AAD applications required.
+There are 4 AAD applications required. You'll need to update the settings files in each project to reflect the Applications in your Active Directory. You'll also need to get the ClientSecrets and set them as user-secrets to run locally.
 
 ### Back End API
 | Property | Setting | Notes |
