@@ -95,6 +95,7 @@
       "$type": "webapp",
       "configuration": {
         "clientAppSettings:BackEndAppClientId": "[BackEndApi.OAuthOutput.ClientId]",
+        "ClientAppSettings:IntegrationApiClientId": "[IntegrationApi.OAuthOutput.ClientId]",
         "clientAppSettings:IntegrationApiUri": "[IntegrationApi.Uri]"
       },
       "requiredSecretNames": null,
