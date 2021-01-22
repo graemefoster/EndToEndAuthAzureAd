@@ -69,8 +69,8 @@
     {
       "$type": "webapp",
       "configuration": {
-        "integrationApiSettings:BackEndApiUri": "[BackEndApi.Uri]",
-        "integrationApiSettings:BackEndAppClientId": "[BackEndApi.OAuthOutput.ClientId]"
+        "IntegrationApiSettings:BackEndApiUri": "[BackEndApi.Uri]",
+        "IntegrationApiSettings:BackEndAppClientId": "[BackEndApi.OAuthOutput.ClientId]"
       },
       "requiredSecretNames": null,
       "authorisation": {
@@ -100,8 +100,8 @@
     {
       "$type": "webapp",
       "configuration": {
-        "clientAppSettings:BackEndAppClientId": "[BackEndApi.OAuthOutput.ClientId]",
-        "clientAppSettings:IntegrationApiUri": "[IntegrationApi.Uri]"
+        "ClientAppSettings:BackEndAppClientId": "[BackEndApi.OAuthOutput.ClientId]",
+        "ClientAppSettings:IntegrationApiUri": "[IntegrationApi.Uri]"
       },
       "requiredSecretNames": null,
       "authorisation": {
