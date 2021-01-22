@@ -81,7 +81,8 @@
             "name": "on-behalf-of",
             "allowedDelegatingApplications": null
           }
-        ]
+        ],
+        "knownApplications": [ "ClientWebAppOnBehalfOf" ]
       },
       "name": "IntegrationApi",
       "links": []
