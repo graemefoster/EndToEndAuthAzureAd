@@ -30,8 +30,7 @@ namespace IntegrationApi
             var jwt = Request.Headers["Authorization"][0];
             var token = jwt.Substring("Bearer ".Length);
 
-            //validate the token. This example is _very_ simple and full of security holes. Motorola will be 
-            //able to tell you what validations they are doing.
+            //validate the token. This example is _very_ simple and full of security holes.
             var validateResult = new JsonWebTokenHandler().ValidateToken(token, new TokenValidationParameters());
 
             return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(
