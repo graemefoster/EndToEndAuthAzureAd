@@ -28,8 +28,13 @@ namespace ClientWebAppOnBehalfOf
 
             services.AddInMemoryTokenCaches();
 
-            //var orderUsingOnBehalfOfScope = $"api://{settings.IntegrationApiClientId}/.default";
-            var orderUsingOnBehalfOfScope = $"api://{settings.IntegrationApiClientId}/on-behalf-of";
+            //.default allows the client to 'be honest' and show all the scopes the middle tier flow wants to use.
+            //If you use this you DO need to add this scope as a required permission in the client's aad permission list. This results in a nicer experience for the end user
+            var orderUsingOnBehalfOfScope = $"api://{settings.IntegrationApiClientId}/.default";
+
+            //This is the scope defined by the middle tier. Using this doesn't show the scopes the middle tier will use on-behalf-of you, to the user.
+            //If you use this you do not need to add this scope as a required permission in the client's aad permission list
+            //var orderUsingOnBehalfOfScope = $"api://{settings.IntegrationApiClientId}/on-behalf-of";
 
             //Used for incremental consent on my razor page. 
             //https://github.com/AzureAD/microsoft-identity-web/wiki/Managing-incremental-consent-and-conditional-access

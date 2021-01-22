@@ -79,10 +79,14 @@
         "scopes": [
           {
             "name": "on-behalf-of",
-            "allowedDelegatingApplications": null
+            "allowedDelegatingApplications": [
+              "ClientWebAppOnBehalfOf"
+            ]
           }
         ],
-        "knownApplications": [ "ClientWebAppOnBehalfOf" ]
+        "knownApplications": [
+          "ClientWebAppOnBehalfOf"
+        ]
       },
       "name": "IntegrationApi",
       "links": []
