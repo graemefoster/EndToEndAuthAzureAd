@@ -59,3 +59,8 @@ No apis exposed / roles / permissions for this one
 | --- | --- | --- |
 | API Permissions | on-behalf-of 'exposed API' from the Middle-tier API |
 
+
+For a user to successfully authenticate and call the API you will need to add them into the BackOffice role in Azure Active Directory. 
+A scope doesn't mean that a user has the permission to do something. It means that someone consented for an API to do something 'as them'. They may not have permission to do that thing.
+
+Think of a hospital. Maybe a client app has some functionality to call an api that can administer treatments. The end user that consents for that API to be consumed needs to be someone that can do this. Scopes carve an API surface area up into chunks, and are mainly used for a end user consent experience. Roles, permissions and policy are still the vehicle for what a user can do.
