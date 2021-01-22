@@ -32,3 +32,30 @@ The cons to this are:
  - The middle tier API has the ability to call the backend for _any_ user, even if no user is using the application.
 
 For these reasons I've not added a sample project for this flow.
+
+
+## Setup
+
+There are 4 AAD applications required.
+
+### Back End API
+| Property | Setting | Notes |
+| --- | --- | --- |
+| Exposed APIs | Orders |
+| App Roles | BackOffice | Can use this to ensure that the user calling is in the correct role in AAD
+
+### Middle-tier API
+| Property | Setting | Notes |
+| --- | --- | --- |
+| API Permissions | Orders 'exposed API' from the back end API |
+| Exposed APIs | on-behalf-of | Requested for the on behalf of flow
+| Direct entry in manifest file | knownClientApplications | Add the Application ID of the ClientWebApp-OnBehalfOf |
+
+### Client Web App App
+No apis exposed / roles / permissions for this one
+
+### Client Web App (On Behalf Of) App
+| Property | Setting | Notes |
+| --- | --- | --- |
+| API Permissions | on-behalf-of 'exposed API' from the Middle-tier API |
+
