@@ -11,6 +11,8 @@ ProjectSection(SolutionItems) = preProject
 	..\.speedway\manifest.json = ..\.speedway\manifest.json
 EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientWebAppOnBehalfOf", "ClientWebAppOnBehalfOf\ClientWebAppOnBehalfOf.csproj", "{04DA0EA4-1375-4EE4-93F0-9157E9C46778}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,5 +31,9 @@ Global
 		{9192C78C-15D9-4912-834A-BD15C9AF0BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9192C78C-15D9-4912-834A-BD15C9AF0BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9192C78C-15D9-4912-834A-BD15C9AF0BDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04DA0EA4-1375-4EE4-93F0-9157E9C46778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04DA0EA4-1375-4EE4-93F0-9157E9C46778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04DA0EA4-1375-4EE4-93F0-9157E9C46778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04DA0EA4-1375-4EE4-93F0-9157E9C46778}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

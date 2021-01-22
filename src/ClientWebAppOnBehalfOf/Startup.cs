@@ -7,7 +7,7 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.TokenCacheProviders.InMemory;
 using Microsoft.Identity.Web.UI;
 
-namespace ClientWebApp
+namespace ClientWebAppOnBehalfOf
 {
     public class Startup
     {
@@ -28,18 +28,18 @@ namespace ClientWebApp
 
             services.AddInMemoryTokenCaches();
 
-            var orderScope = $"api://{settings.BackEndAppClientId}/Orders";
+            var orderUsingOnBehalfOfScope = $"api://{settings.IntegrationApiClientId}/.default";
 
             //Used for incremental consent on my razor page. 
             //https://github.com/AzureAD/microsoft-identity-web/wiki/Managing-incremental-consent-and-conditional-access
-            Configuration["DownstreamApi:CalledApiScopes"] = orderScope;
+            Configuration["IntegrationApi:CalledApiScopes"] = orderUsingOnBehalfOfScope;
 
             services
                 .AddMicrosoftIdentityWebAppAuthentication(Configuration)
-                .EnableTokenAcquisitionToCallDownstreamApi(new [] {orderScope})
-                .AddDownstreamWebApi("Orders", options =>
+                .EnableTokenAcquisitionToCallDownstreamApi(new[] {orderUsingOnBehalfOfScope})
+                .AddDownstreamWebApi("OrdersViaOnBehalfOf", options =>
                 {
-                    options.Scopes = orderScope;
+                    options.Scopes = orderUsingOnBehalfOfScope;
                     options.BaseUrl = settings.IntegrationApiUri;
                 });
 

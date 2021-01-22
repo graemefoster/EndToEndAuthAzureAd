@@ -23,7 +23,10 @@ namespace IntegrationApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<IntegrationApiSettings>(Configuration.GetSection("IntegrationApiSettings"));
+
             services.AddHttpClient<BackEndApiWithTokenPassThruClient>();
+            services.AddScoped<BackEndApiWithOnBehalfOfFlow>();
+            
             services.AddHttpContextAccessor();
             services.AddControllers();
 
@@ -32,8 +35,8 @@ namespace IntegrationApi
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "IntegrationApi", Version = "v1"});
             });
 
-            ConfigureAuthenticationForOnBehalfOfFlow(services);
             ConfigureAuthenticationForPassThruTokenScenario(services);
+            ConfigureAuthenticationForOnBehalfOfFlow(services);
 
             services.AddAuthorization(options =>
             {

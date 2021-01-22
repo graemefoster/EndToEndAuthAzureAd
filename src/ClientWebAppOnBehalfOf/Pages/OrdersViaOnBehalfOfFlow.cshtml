@@ -1,0 +1,27 @@
+﻿@page
+@model ClientWebAppOnBehalfOf.Pages.OrdersViaOnBehalfOfFlow
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Orders (via on behalf of flow)</title>
+</head>
+<body>
+<div>
+    <h1>Hello @User.Identity!.Name</h1>
+    <p>Your orders are:</p>
+    <ul>
+        @foreach (var order in Model.OrdersList)
+        {
+            <li>@order.Name</li>
+        }
+    </ul>
+
+</div>
+</body>
+</html>

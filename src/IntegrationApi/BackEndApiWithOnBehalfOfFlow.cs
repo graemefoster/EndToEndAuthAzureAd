@@ -21,7 +21,7 @@ namespace IntegrationApi
 
         public Task<IEnumerable<Order>> List()
         {
-            return _downstreamWebApi.CallWebApiForUserAsync<IEnumerable<Order>>("Orders");
+            return _downstreamWebApi.CallWebApiForUserAsync<IEnumerable<Order>>("BackEndApi", options => options.RelativePath = "Orders");
         }
     }
 }

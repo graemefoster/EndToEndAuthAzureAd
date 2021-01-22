@@ -16,8 +16,8 @@
       "name": "MobileAppExample",
       "links": [
         {
-          "type": "secrets",
           "name": "Default",
+          "type": "secrets",
           "access": "Read"
         }
       ]
@@ -52,15 +52,16 @@
             ]
           },
           {
-            "name": "Customers"
+            "name": "Customers",
+            "allowedDelegatingApplications": null
           }
         ]
       },
       "name": "BackEndApi",
       "links": [
         {
-          "type": "secrets",
           "name": "Default",
+          "type": "secrets",
           "access": "Read"
         }
       ]
@@ -68,15 +69,17 @@
     {
       "$type": "webapp",
       "configuration": {
-        "IntegrationApiSettings:BackEndApiUri": "[BackEndApi.Uri]",
-        "IntegrationApiSettings:BackEndAppClientId": "[BackEndApi.OAuthOutput.ClientId]"
+        "integrationApiSettings:BackEndApiUri": "[BackEndApi.Uri]",
+        "integrationApiSettings:BackEndAppClientId": "[BackEndApi.OAuthOutput.ClientId]"
       },
       "requiredSecretNames": null,
       "authorisation": {
         "localRedirectUri": "https://localhost:44316/signin-oidc",
+        "roles": null,
         "scopes": [
           {
-            "name": "on-behalf-of"
+            "name": "on-behalf-of",
+            "allowedDelegatingApplications": null
           }
         ]
       },
@@ -86,9 +89,8 @@
     {
       "$type": "webapp",
       "configuration": {
-        "ClientAppSettings:BackEndAppClientId": "[BackEndApi.OAuthOutput.ClientId]",
-        "ClientAppSettings:IntegrationApiClientId": "[IntegrationApi.OAuthOutput.ClientId]",
-        "ClientAppSettings:IntegrationApiUri": "[IntegrationApi.Uri]"
+        "clientAppSettings:BackEndAppClientId": "[BackEndApi.OAuthOutput.ClientId]",
+        "clientAppSettings:IntegrationApiUri": "[IntegrationApi.Uri]"
       },
       "requiredSecretNames": null,
       "authorisation": {
@@ -99,11 +101,33 @@
       "name": "ClientWebApp",
       "links": [
         {
-          "type": "secrets",
           "name": "Default",
+          "type": "secrets",
+          "access": "Read"
+        }
+      ]
+    },
+    {
+      "$type": "webapp",
+      "configuration": {
+        "configurationExample": "Something"
+      },
+      "requiredSecretNames": null,
+      "authorisation": {
+        "localRedirectUri": "https://localhost:44350/signin-oidc",
+        "roles": null,
+        "scopes": null
+      },
+      "name": "ClientWebAppOnBehalfOf",
+      "links": [
+        {
+          "name": "Default",
+          "type": "secrets",
           "access": "Read"
         }
       ]
     }
-  ]
+  ],
+  "developers": null,
+  "testers": null
 }
