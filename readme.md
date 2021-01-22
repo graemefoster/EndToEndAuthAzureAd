@@ -65,4 +65,6 @@ A scope doesn't mean that a user has the permission to do something. It means th
 
 Think of a hospital. Maybe a client app has some functionality to call an api that can administer treatments. The end user that consents for that API to be consumed needs to be someone that can do this. Scopes carve an API surface area up into chunks, and are mainly used for a end user consent experience. Roles, permissions and policy are still the vehicle for what a user can do.
 
+You can also stop users being able to get a token for an application regardless of permissions / roles. To do this you can find the application in Azure AD, click through to the Managed Application, and check the 'User Assignment Required' on the Properties tab.
+
 More good info here: https://auth0.com/blog/on-the-nature-of-oauth2-scopes/
